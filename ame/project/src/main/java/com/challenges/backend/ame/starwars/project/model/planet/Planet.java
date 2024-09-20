@@ -1,5 +1,6 @@
 package com.challenges.backend.ame.starwars.project.model.planet;
 
+import com.challenges.backend.ame.starwars.project.model.planet.dto.CreatePlanetReqDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
@@ -19,4 +20,13 @@ public record Planet(
         String terrain
 
 ) {
+
+    public Planet(CreatePlanetReqDTO createPlanetReqDTO) {
+        this(
+                null,
+                createPlanetReqDTO.name(),
+                createPlanetReqDTO.climate(),
+                createPlanetReqDTO.terrain()
+        );
+    }
 }
