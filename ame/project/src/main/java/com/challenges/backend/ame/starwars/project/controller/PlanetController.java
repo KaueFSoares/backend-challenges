@@ -1,6 +1,6 @@
 package com.challenges.backend.ame.starwars.project.controller;
 
-import com.challenges.backend.ame.starwars.project.model.Planet;
+import com.challenges.backend.ame.starwars.project.model.planet.Planet;
 import com.challenges.backend.ame.starwars.project.service.PlanetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
