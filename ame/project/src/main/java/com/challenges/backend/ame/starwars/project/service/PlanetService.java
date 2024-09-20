@@ -50,4 +50,8 @@ public class PlanetService {
 
         return planetRepository.save(planet);
     }
+
+    public Mono<Void> delete(Long id) {
+        return planetRepository.deleteById(id);
+    }
 }

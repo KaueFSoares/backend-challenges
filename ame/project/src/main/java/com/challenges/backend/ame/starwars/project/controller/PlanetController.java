@@ -57,4 +57,13 @@ public class PlanetController {
                 });
     }
 
+    @DeleteMapping("/{id}")
+    public Mono<ResponseEntity<Void>> delete(
+            @PathVariable
+            Long id
+    ) {
+        return service.delete(id)
+                .then(Mono.fromCallable(() -> ResponseEntity.noContent().build()));
+    }
+
 }
