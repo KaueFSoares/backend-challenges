@@ -3,7 +3,6 @@ package com.challenges.backend.ame.starwars.project.service;
 import com.challenges.backend.ame.starwars.project.model.planet.Planet;
 import com.challenges.backend.ame.starwars.project.model.planet.dto.CreatePlanetReqDTO;
 import com.challenges.backend.ame.starwars.project.repository.PlanetRepository;
-import com.jayway.jsonpath.JsonPath;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
