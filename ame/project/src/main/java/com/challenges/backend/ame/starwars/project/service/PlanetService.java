@@ -29,17 +29,15 @@ public class PlanetService {
     public Mono<Planet> findById(Long id) {
         // TODO: fetch planet from SWAPI
 
-        return planetRepository.findOptionalById(id)
-                .map(optional -> optional.orElseThrow(
-                        () -> new RuntimeException("Planet not found")));
+        return planetRepository.findById(id)
+                .switchIfEmpty(Mono.error(new RuntimeException("Planet not found")));
     }
 
     public Mono<Planet> findByName(String name) {
         // TODO: fetch planet from SWAPI
 
         return planetRepository.findByName(name)
-                .map(optional -> optional.orElseThrow(
-                        () -> new RuntimeException("Planet not found")));
+                .switchIfEmpty(Mono.error(new RuntimeException("Planet not found")));
     }
 
     public Mono<Planet> create(CreatePlanetReqDTO createPlanetReqDTO) {
