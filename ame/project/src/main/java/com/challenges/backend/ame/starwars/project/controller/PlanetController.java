@@ -5,10 +5,10 @@ import com.challenges.backend.ame.starwars.project.model.planet.dto.CreatePlanet
 import com.challenges.backend.ame.starwars.project.service.PlanetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -21,8 +21,9 @@ public class PlanetController {
     private final PlanetService service;
 
     @GetMapping
-    public ResponseEntity<Flux<Planet>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+    public Mono<ResponseEntity<Page<Planet>>> findAll(Pageable pageable) {
+        return service.findAll(pageable)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping
@@ -35,8 +36,7 @@ public class PlanetController {
                 .map(planet -> {
                     URI uri = URI.create("/api/v1/planets/" + planet.id());
                     return ResponseEntity.created(uri).body(planet);
-                })
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+                });
     }
 
 }

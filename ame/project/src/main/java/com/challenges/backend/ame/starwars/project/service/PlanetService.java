@@ -4,8 +4,10 @@ import com.challenges.backend.ame.starwars.project.model.planet.Planet;
 import com.challenges.backend.ame.starwars.project.model.planet.dto.CreatePlanetReqDTO;
 import com.challenges.backend.ame.starwars.project.repository.PlanetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -14,8 +16,11 @@ public class PlanetService {
 
     private final PlanetRepository planetRepository;
 
-    public Flux<Planet> findAll() {
-        return planetRepository.findAll();
+    public Mono<Page<Planet>> findAll(Pageable pageable) {
+        return this.planetRepository.findAllBy(pageable)
+                .collectList()
+                .zipWith(this.planetRepository.count())
+                .map(p -> new PageImpl<>(p.getT1(), pageable, p.getT2()));
     }
 
     public Mono<Planet> create(CreatePlanetReqDTO createPlanetReqDTO) {
