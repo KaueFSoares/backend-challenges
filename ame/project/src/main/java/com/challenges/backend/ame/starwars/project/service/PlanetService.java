@@ -3,6 +3,7 @@ package com.challenges.backend.ame.starwars.project.service;
 import com.challenges.backend.ame.starwars.project.model.planet.Planet;
 import com.challenges.backend.ame.starwars.project.model.planet.dto.CreatePlanetReqDTO;
 import com.challenges.backend.ame.starwars.project.repository.PlanetRepository;
+import com.jayway.jsonpath.JsonPath;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,7 +29,17 @@ public class PlanetService {
     public Mono<Planet> findById(Long id) {
         // TODO: fetch planet from SWAPI
 
-        return planetRepository.findById(id);
+        return planetRepository.findOptionalById(id)
+                .map(optional -> optional.orElseThrow(
+                        () -> new RuntimeException("Planet not found")));
+    }
+
+    public Mono<Planet> findByName(String name) {
+        // TODO: fetch planet from SWAPI
+
+        return planetRepository.findByName(name)
+                .map(optional -> optional.orElseThrow(
+                        () -> new RuntimeException("Planet not found")));
     }
 
     public Mono<Planet> create(CreatePlanetReqDTO createPlanetReqDTO) {

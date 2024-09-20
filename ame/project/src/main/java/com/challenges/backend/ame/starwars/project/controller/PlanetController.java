@@ -35,6 +35,15 @@ public class PlanetController {
                 .map(ResponseEntity::ok);
     }
 
+    @GetMapping("/name/{name}")
+    public Mono<ResponseEntity<Planet>> findByName(
+            @PathVariable
+            String name
+    ) {
+        return service.findByName(name)
+                .map(ResponseEntity::ok);
+    }
+
     @PostMapping
     public Mono<ResponseEntity<Planet>> create(
             @Valid
