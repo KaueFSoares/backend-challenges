@@ -17,10 +17,18 @@ public class PlanetService {
     private final PlanetRepository planetRepository;
 
     public Mono<Page<Planet>> findAll(Pageable pageable) {
+        // TODO: fetch planets from SWAPI
+
         return this.planetRepository.findAllBy(pageable)
                 .collectList()
                 .zipWith(this.planetRepository.count())
                 .map(p -> new PageImpl<>(p.getT1(), pageable, p.getT2()));
+    }
+
+    public Mono<Planet> findById(Long id) {
+        // TODO: fetch planet from SWAPI
+
+        return planetRepository.findById(id);
     }
 
     public Mono<Planet> create(CreatePlanetReqDTO createPlanetReqDTO) {
