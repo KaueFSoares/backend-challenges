@@ -7,14 +7,16 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("planets")
 @TypeAlias("planet")
-public record Planet (
+public record Planet(
 
         @Id
         Long id,
 
         String name,
 
-        JsonNode details
+        String climate,
+
+        String terrain
 
 ) {
 }

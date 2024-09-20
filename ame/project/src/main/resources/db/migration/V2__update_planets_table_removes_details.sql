@@ -1,0 +1,4 @@
+ALTER TABLE planets DROP COLUMN details;
+
+ALTER TABLE planets ADD COLUMN terrain VARCHAR(100);
+ALTER TABLE planets ADD COLUMN climate VARCHAR(100);
