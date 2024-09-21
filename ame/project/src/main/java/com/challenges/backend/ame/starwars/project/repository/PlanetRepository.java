@@ -10,4 +10,6 @@ public interface PlanetRepository extends ReactiveCrudRepository<Planet, Long> {
     Flux<Planet> findAllBy(Pageable pageable);
 
     Mono<Planet> findByName(String name);
+
+    Mono<Boolean> existsByName(String name);
 }

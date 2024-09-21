@@ -1,6 +1,5 @@
 package com.challenges.backend.ame.starwars.project.controller;
 
-import com.challenges.backend.ame.starwars.project.model.planet.Planet;
 import com.challenges.backend.ame.starwars.project.model.planet.dto.CreatePlanetReqDTO;
 import com.challenges.backend.ame.starwars.project.model.planet.dto.PlanetResDTO;
 import com.challenges.backend.ame.starwars.project.service.PlanetService;
@@ -22,13 +21,13 @@ public class PlanetController {
     private final PlanetService service;
 
     @GetMapping
-    public Mono<ResponseEntity<Page<Planet>>> findAll(Pageable pageable) {
+    public Mono<ResponseEntity<Page<PlanetResDTO>>> findAll(Pageable pageable) {
         return service.findAll(pageable)
                 .map(ResponseEntity::ok);
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Planet>> findById(
+    public Mono<ResponseEntity<PlanetResDTO>> findById(
             @PathVariable
             Long id
     ) {
@@ -46,7 +45,7 @@ public class PlanetController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<Planet>> create(
+    public Mono<ResponseEntity<PlanetResDTO>> create(
             @Valid
             @RequestBody
             CreatePlanetReqDTO createPlanetReqDTO
