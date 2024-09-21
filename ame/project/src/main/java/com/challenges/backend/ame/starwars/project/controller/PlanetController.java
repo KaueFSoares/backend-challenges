@@ -2,6 +2,7 @@ package com.challenges.backend.ame.starwars.project.controller;
 
 import com.challenges.backend.ame.starwars.project.model.planet.Planet;
 import com.challenges.backend.ame.starwars.project.model.planet.dto.CreatePlanetReqDTO;
+import com.challenges.backend.ame.starwars.project.model.planet.dto.PlanetResDTO;
 import com.challenges.backend.ame.starwars.project.service.PlanetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class PlanetController {
     }
 
     @GetMapping("/name/{name}")
-    public Mono<ResponseEntity<Planet>> findByName(
+    public Mono<ResponseEntity<PlanetResDTO>> findByName(
             @PathVariable
             String name
     ) {

@@ -1,7 +1,9 @@
 package com.challenges.backend.ame.starwars.project.service;
 
+import com.challenges.backend.ame.starwars.project.integration.swapi.StarWarsPlanetService;
 import com.challenges.backend.ame.starwars.project.model.planet.Planet;
 import com.challenges.backend.ame.starwars.project.model.planet.dto.CreatePlanetReqDTO;
+import com.challenges.backend.ame.starwars.project.model.planet.dto.PlanetResDTO;
 import com.challenges.backend.ame.starwars.project.repository.PlanetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import reactor.core.publisher.Mono;
 public class PlanetService {
 
     private final PlanetRepository planetRepository;
+    private final StarWarsPlanetService starWarsPlanetService;
 
     public Mono<Page<Planet>> findAll(Pageable pageable) {
         // TODO: fetch planets from SWAPI
@@ -29,15 +32,17 @@ public class PlanetService {
         // TODO: fetch planet from SWAPI
 
         return planetRepository.findById(id)
-                .switchIfEmpty(Mono.error(new RuntimeException("Planet not found")));
+                .switchIfEmpty(Mono.error(new RuntimeException("PlanetDTO not found")));
     }
 
-    public Mono<Planet> findByName(String name) {
-        // TODO: fetch planet from SWAPI
+    public Mono<PlanetResDTO> findByName(String name) {
+        Mono<Integer> films = starWarsPlanetService.getPlanetAppearancesInFilms(name);
 
         return planetRepository.findByName(name)
-                .switchIfEmpty(Mono.error(new RuntimeException("Planet not found")));
+                .flatMap(planet -> films.map(planet::to))
+                .switchIfEmpty(Mono.error(new RuntimeException("PlanetDTO not found")));
     }
+
 
     public Mono<Planet> create(CreatePlanetReqDTO createPlanetReqDTO) {
         // TODO: validate if planet already exists
