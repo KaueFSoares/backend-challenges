@@ -1,5 +1,7 @@
 package com.challenges.backend.ame.starwars.project.integration.swapi;
 
+import com.challenges.backend.ame.starwars.project.i18n.Messages;
+import com.challenges.backend.ame.starwars.project.i18n.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -25,7 +27,7 @@ public class StarWarsPlanetService {
                         .switchIfEmpty(
                                 page.next() != null
                                         ? fetchPlanetAppearancesInFilmsRecursive(planetName, page.next())
-                                        : Mono.error(new RuntimeException("Planet not found"))
+                                        : Mono.error(new NotFoundException(Messages.PLANET_NOT_FOUND))
                         ));
     }
 

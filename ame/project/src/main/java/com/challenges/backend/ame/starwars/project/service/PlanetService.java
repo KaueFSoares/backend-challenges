@@ -1,5 +1,8 @@
 package com.challenges.backend.ame.starwars.project.service;
 
+import com.challenges.backend.ame.starwars.project.i18n.Messages;
+import com.challenges.backend.ame.starwars.project.i18n.exception.ConflictException;
+import com.challenges.backend.ame.starwars.project.i18n.exception.NotFoundException;
 import com.challenges.backend.ame.starwars.project.integration.swapi.StarWarsPlanetService;
 import com.challenges.backend.ame.starwars.project.model.planet.Planet;
 import com.challenges.backend.ame.starwars.project.model.planet.dto.CreatePlanetReqDTO;
@@ -38,7 +41,7 @@ public class PlanetService {
                 .flatMap(planet ->
                         starWarsPlanetService.getPlanetAppearancesInFilms(planet.name())
                                 .map(planet::to))
-                .switchIfEmpty(Mono.error(new RuntimeException("Planet not found")));
+                .switchIfEmpty(Mono.error(new NotFoundException(Messages.PLANET_NOT_FOUND)));
     }
 
     public Mono<PlanetResDTO> findByName(String name) {
@@ -46,7 +49,7 @@ public class PlanetService {
                 .flatMap(planet ->
                         starWarsPlanetService.getPlanetAppearancesInFilms(planet.name())
                                 .map(planet::to))
-                .switchIfEmpty(Mono.error(new RuntimeException("Planet not found")));
+                .switchIfEmpty(Mono.error(new NotFoundException(Messages.PLANET_NOT_FOUND)));
     }
 
 
@@ -65,7 +68,7 @@ public class PlanetService {
     private Mono<Void> validatePlanetDoesNotExist(String planetName) {
         return planetRepository.existsByName(planetName)
                 .flatMap(exists -> exists ?
-                        Mono.error(new RuntimeException("Planet already exists")) :
+                        Mono.error(new ConflictException(Messages.PLANET_ALREADY_EXISTS)) :
                         Mono.empty());
     }
 }
